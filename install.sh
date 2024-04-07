@@ -9,7 +9,7 @@ sudo apt-get update
 
 # Install necessary packages
 echo "Installing necessary packages..."
-sudo apt-get install -y apt-transport-https ca-certificates curl software-properties-common git
+sudo apt-get install -y apt-transport-https ca-certificates curl software-properties-common git aircrack-ng
 
 echo "Installing NodeJS..."
 curl -sL https://deb.nodesource.com/setup_21.x | sudo -E bash -
