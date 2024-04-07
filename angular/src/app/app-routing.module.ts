@@ -1,7 +1,13 @@
 import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import { Routes, RouterModule } from '@angular/router';
+import { WifiComponent } from './wifi/wifi.component';
+import { BluetoothComponent } from './bluetooth/bluetooth.component';
 
-const routes: Routes = [];
+const routes: Routes = [
+  { path: 'wifi', component: WifiComponent },
+  { path: 'bluetooth', component: BluetoothComponent },
+  // add other routes here
+];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
