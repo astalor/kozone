@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { io, Socket } from 'socket.io-client';
+import { environment } from '../environments/environment'; // Adjust the path as necessary
 
 @Injectable({
   providedIn: 'root'
@@ -7,7 +8,7 @@ import { io, Socket } from 'socket.io-client';
 export class SocketService {
   private socket: Socket;
   constructor() {
-    this.socket = io('http://your-backend-ip:port');
+    this.socket = io(environment.backendUrl);
   }
 
   startTail(logFilePath: string) {
