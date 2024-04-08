@@ -1,0 +1,32 @@
+.mat-toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: white; /* Make text color more visible */
+  }
+  
+  .nav-items {
+    display: flex;
+    flex-direction: row;
+  
+    .mat-list-item {
+      height: auto;
+      color: white; /* Ensure nav item text is visible against the toolbar */
+      display: flex;
+      align-items: center;
+  
+      .mat-line {
+        margin-left: 8px; /* Reduce space between icon and text */
+      }
+    }
+  }
+  
+  .login-info {
+    display: flex;
+    align-items: center;
+    gap: 8px; /* Reduce space between username/password/signin elements */
+  }
+  
+  .mat-form-field {
+    margin-right: 8px; /* Ensure form fields are close to each other */
+  }

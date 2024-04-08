@@ -1,0 +1,19 @@
+<div *ngIf="isLoading">
+    Loading...
+  </div>
+  
+  <table *ngIf="!isLoading" class="bluetooth-table">
+    <thead>
+      <tr>
+        <th>Device Name</th>
+        <th>Signal Strength</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let device of dataSource">
+        <td>{{ device.name }}</td>
+        <td>{{ device.signalStrength }}</td>
+      </tr>
+    </tbody>
+  </table>
+  

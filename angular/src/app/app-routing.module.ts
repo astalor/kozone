@@ -4,6 +4,7 @@ import { WifiComponent } from './wifi/wifi.component';
 import { BluetoothComponent } from './bluetooth/bluetooth.component';
 
 const routes: Routes = [
+  { path: '', redirectTo: '/wifi', pathMatch: 'full' },
   { path: 'wifi', component: WifiComponent },
   { path: 'bluetooth', component: BluetoothComponent },
   // add other routes here

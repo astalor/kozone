@@ -1,0 +1,31 @@
+<div *ngIf="isLoading">
+    Loading...
+  </div>
+  
+  <table *ngIf="!isLoading" class="wifi-table">
+    <thead>
+      <tr>
+        <th>SSID</th>
+        <th>MAC</th>
+        <th>Signal Strength</th>
+        <th>Channel</th>
+        <th>Security</th>
+        <th>Beacons</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let network of dataSource">
+        <td>{{ network.ssid }}</td>
+        <td>{{ network.mac }}</td>
+        <td>{{ network.signalStrength }}</td>
+        <td>{{ network.channel }}</td>
+        <td>{{ network.securityType }}</td>
+        <td>{{ network.beacons }}</td>
+        <td>
+            <button mat-raised-button color="primary" (click)="connect(network.ssid)">Select</button>  
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  

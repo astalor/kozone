@@ -1,0 +1,33 @@
+<mat-toolbar color="primary">
+    <!-- Navigation Items -->
+    <mat-nav-list class="nav-items">
+      <a mat-list-item [routerLink]="['/wifi']">
+        <mat-icon mat-list-icon>wifi</mat-icon>
+        <div mat-line>WIFI ({{ wifiCount }})</div>
+      </a>
+      <a mat-list-item [routerLink]="['/bluetooth']">
+        <mat-icon mat-list-icon>bluetooth</mat-icon>
+        <div mat-line>Bluetooth ({{ bluetoothCount }})</div>
+      </a>
+    </mat-nav-list>
+  
+    <!-- Right side: Conditional display based on login status -->
+    <!--div *ngIf="isLoggedIn; else loginForm" class="login-info">
+      <span [matMenuTriggerFor]="menu">{{ userEmail }}</span>
+      <mat-menu #menu="matMenu">
+        <button mat-menu-item (click)="logout()">Logout</button>
+      </mat-menu>
+    </div>
+    <ng-template #loginForm>
+      <mat-form-field appearance="fill">
+        <mat-label>Email</mat-label>
+        <input matInput [(ngModel)]="email" name="email">
+      </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>Password</mat-label>
+        <input matInput [(ngModel)]="password" name="password" type="password">
+      </mat-form-field>
+      <button mat-button (click)="login()">Sign In</button>
+    </ng-template-->
+  </mat-toolbar>
+  
