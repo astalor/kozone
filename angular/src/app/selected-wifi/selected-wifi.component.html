@@ -1,0 +1,42 @@
+<mat-card>
+    <mat-card-header>
+        <mat-card-title>Wi-Fi Password Recovery</mat-card-title>
+        <mat-card-subtitle>{{ ssid }}</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+        <button mat-raised-button color="primary" *ngIf="state == '0'" (click)="getPasswordStart()">Get Password</button>
+        <button mat-raised-button color="warn" *ngIf="state == '1'" (click)="getPasswordStop()">Stop</button>
+
+        <div class="message-container" *ngIf="messages.length">
+        <mat-list>
+            <mat-list-item *ngFor="let message of messages">{{ message }}</mat-list-item>
+        </mat-list>
+        </div>
+    </mat-card-content>
+</mat-card>
+  
+
+<mat-card>
+    <mat-card-header>
+        <mat-card-title>Connected Clients</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+        <table>
+            <thead>
+                <tr>
+                    <th>MAC</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let client of connectedClients">
+                    <td>{{ client }}</td>
+                    <td>
+                        <button mat-raised-button color="warn" (click)="deauthClient(client.mac)">Deauth</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </mat-card-content>
+</mat-card>
+

@@ -14,11 +14,11 @@ export class HeaderComponent {
   bluetoothCount = 0; // Update this based on actual Bluetooth devices found
   email = '';
   password = '';
-  private dataSubscription!: Subscription;
+  private ds!: Subscription;
   dataSource: [] = [];
 
   constructor(private socketService: SocketService) {
-    this.dataSubscription = this.socketService.listen('wifiList').subscribe((data: any) => {
+    this.ds = this.socketService.listen('wifiList').subscribe((data: any) => {
       this.wifiCount = data.length;
     });
   }
@@ -36,6 +36,5 @@ export class HeaderComponent {
   }
 
   ngOnDestroy() {
-    this.dataSubscription.unsubscribe();
   }
 }

@@ -10,6 +10,7 @@ export class SocketService {
   private socket: Socket;
   wifiCount = 0;
   btCount = 0;
+  wifiData: any[] = [];
   constructor() {
     this.socket = io(environment.backendUrl, {
       withCredentials: true
@@ -51,6 +52,30 @@ export class SocketService {
 
   stopWifiScan() {
     this.socket.emit('stopWifiScan');
+  }
+
+  getPasswordStart(ssid: string, channel: string, mac: string) {
+    this.socket.emit('getPasswordStart', {
+      ssid,
+      channel,
+      mac
+    });
+  }
+
+  getPasswordPause(ssid: string) {
+    this.socket.emit('getPasswordPause');
+  }
+
+  getPasswordResume(ssid: string) {
+    this.socket.emit('getPasswordResume');
+  }
+
+  getPasswordStop(ssid: string) {
+    this.socket.emit('getPasswordStop');
+  }
+
+  getConnectedClients(ssid: string, mac: string, channel: string) {
+    this.socket.emit('getConnectedClients', {ssid, mac, channel});
   }
 
 }

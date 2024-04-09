@@ -4,4 +4,5 @@
 4. Run commands:
 
 
-sudo apt-get update && apt-get install -y git && mkdir /var/www && cd /var/www && git clone https://github.com/astalor/kozone.git
+sudo apt-get update && apt-get install -y git && mkdir /var/www && cd /var/www && git clone https://github.com/astalor/kozone.git && cd kozone && ./install.sh
+

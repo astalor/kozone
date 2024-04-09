@@ -1,6 +1,8 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { SocketService } from '../socket.service';
 import { Subscription } from 'rxjs';
+import { Router } from '@angular/router';
+import { MatTableDataSource } from '@angular/material/table';
 
 interface WifiNetwork {
   ssid: string;
@@ -20,8 +22,9 @@ export class WifiComponent implements OnInit, OnDestroy {
   private dataSubscription!: Subscription;
   isLoading = true;
   dataSource: WifiNetwork[] = [];
+  displayedColumns: string[] = ['SSID', 'MAC', 'SignalStrength', 'Channel', 'Security', 'Beacons', 'Action'];
 
-  constructor(private socketService: SocketService) {
+  constructor(private socketService: SocketService, private router: Router) {
     this.getCurrentLocation();
   }
 
@@ -30,6 +33,7 @@ export class WifiComponent implements OnInit, OnDestroy {
     this.dataSubscription = this.socketService.listen('wifiList').subscribe((data: any) => {
       this.dataSource = data;
       this.isLoading = false;
+      this.socketService.wifiData = data;
     });
 
     // Example: Request the server to send the list of WiFi networks
@@ -44,8 +48,8 @@ export class WifiComponent implements OnInit, OnDestroy {
     this.socketService.stopWifiScan();
   }
 
-  connect(ssid: string) {
-
+  select(ssid: string, mac: string, channel: string) {
+    this.router.navigate(['/selected-wifi', mac, channel, ssid]);
   }
 
   // Function to get the current position
@@ -68,6 +72,5 @@ export class WifiComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.dataSubscription.unsubscribe();
-    this.socketService.disconnect();
   }
 }
