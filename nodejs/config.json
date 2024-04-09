@@ -1,0 +1,10 @@
+{
+  "wifiScan": {
+    "pid": null,
+    "isRunning": false
+  },
+  "otherProcess": {
+    "pid": null,
+    "isRunning": false
+  }
+}

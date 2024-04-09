@@ -1,11 +1,13 @@
 const express = require('express');
 const http = require('http');
 const { Server } = require("socket.io");
-const { spawn, execSync } = require('child_process');
+const { spawn, exec, execSync } = require('child_process');
 const cors = require('cors');
 const fs = require('fs');
 const processManager = require('./processManager');
 const wifiManager = require('./wifiManager');
+const wifiPasswordManager = require('./wifiPasswordManager');
+const wifiClientsManager = require('./wifiClientsManager');
 
 const app = express();
 app.use(cors({
@@ -32,6 +34,7 @@ const io = new Server(server, {
 });
 
 
+wifiPasswordManager.init(io);
 
 io.on('connection', (socket) => {
   socket.on('startWifiScan', () => {
@@ -39,8 +42,38 @@ io.on('connection', (socket) => {
   });
 
   socket.on('stopWifiScan', () => {
-    wifiManager.stopWifiScan();
+    wifiManager.cleanup();
   });
+  
+  socket.on('getPasswordStart', (data) => {
+	if(data && data.ssid && data.channel && data.mac) {
+		wifiManager.cleanup();
+		wifiPasswordManager.getPasswordStart(data.ssid, data.channel, data.mac);
+		
+	} else {
+		console.error('Missing parameters for getPasswordStart', data);
+	}
+  });
+  
+  socket.on('getPasswordStop', () => {
+    wifiPasswordManager.getPasswordStop();
+  });
+  
+  socket.on('getPasswordPause', () => {
+    wifiPasswordManager.getPasswordPause();
+  });
+  
+  socket.on('getPasswordResume', () => {
+    wifiPasswordManager.getPasswordResume();
+  });
+  
+  socket.on('getConnectedClients', (data) => {
+	wifiManager.cleanup();
+	wifiClientsManager.init(io, data.ssid, data.mac, data.channel);
+  });
+  
+  
+  
 });
 
 
