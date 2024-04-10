@@ -1,10 +1,22 @@
 <mat-card>
     <mat-card-header>
-        <mat-card-title>Wi-Fi Password Recovery</mat-card-title>
-        <mat-card-subtitle>{{ ssid }}</mat-card-subtitle>
+        <mat-card-title>Wi-Fi Setup</mat-card-title>
+        <mat-card-subtitle>{{ ssid }} (<b>{{ mac }})</b></mat-card-subtitle>
+        <mat-card-subtitle>Channel: {{ channel }}</mat-card-subtitle>
     </mat-card-header>
     <mat-card-content>
-        <button mat-raised-button color="primary" *ngIf="state == '0'" (click)="getPasswordStart()">Get Password</button>
+        <input *ngIf="state == '0' || state == '4'" type="text" placeholder="Password" [(ngModel)]="password" style="margin-bottom: 10px;" />
+        <button mat-raised-button color="primary" *ngIf="state == '0'" (click)="setPassword()">Set Password</button>
+        <button mat-raised-button color="primary" *ngIf="state == '4'" (click)="clearPassword()">Clear Password</button>
+    </mat-card-content>
+</mat-card>
+
+<mat-card>
+    <mat-card-header>
+        <mat-card-title>Actions</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+        <button mat-raised-button color="primary" *ngIf="state == '0'" (click)="getPasswordStart()">Crack Password</button>
         <button mat-raised-button color="warn" *ngIf="state == '1'" (click)="getPasswordStop()">Stop</button>
 
         <div class="message-container" *ngIf="messages.length">
@@ -18,21 +30,27 @@
 
 <mat-card>
     <mat-card-header>
-        <mat-card-title>Connected Clients</mat-card-title>
+        <mat-card-title>
+            Connected Clients
+            <span *ngIf="focusedClient.length">/ <b>Focused</b> / {{focusedClient}} / <button mat-raised-button color="warn" (click)="clearFocus()">Clear Focus</button></span>
+        </mat-card-title>
     </mat-card-header>
     <mat-card-content>
         <table>
             <thead>
                 <tr>
                     <th>MAC</th>
+                    <th>EAPOL</th>
                     <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let client of connectedClients">
-                    <td>{{ client }}</td>
-                    <td>
-                        <button mat-raised-button color="warn" (click)="deauthClient(client.mac)">Deauth</button>
+                <tr *ngFor="let client of connectedClients" id="mac{{ getSafeMac(client) }}">
+                    <td >{{ client }}</td>
+                    <td id="eapol{{ getSafeMac(client) }}">{{ activityData[client]?.eapol ? 'Yes' : 'Missing' }}</td>
+                    <td [ngClass]="{'eapol': activityData[client]?.eapol}">
+                        <button mat-raised-button color="warn" (click)="deauthClient(client)">Deauth</button>
+                        <button mat-raised-button color="primary" (click)="focusClient(client)">Focus</button>
                     </td>
                 </tr>
             </tbody>
@@ -40,3 +58,62 @@
     </mat-card-content>
 </mat-card>
 
+<mat-card *ngIf="state == '4' && getActivityDataKeys().length > 0">
+    <mat-card-header>
+      <mat-card-title>Activity</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <ng-container *ngFor="let clientMac of getActivityDataKeys()">
+        <h3>{{ clientMac }}</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>Time</th>
+              <th>Domain</th>
+              <th>Size</th>
+              <th>From IP</th>
+              <th>To IP</th>
+              <th>From Mac</th>
+              <th>To Mac</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of activityData[clientMac].activities">
+              <td>{{ item.time }}</td>
+              <td>{{ item.domain }}</td>
+              <td>{{ item.size }}</td>
+              <td>{{ item.msrc }}</td>
+              <td>{{ item.mdst }}</td>
+              <td>{{ item.src }}</td>
+              <td>{{ item.dst }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </ng-container>
+    </mat-card-content>
+  </mat-card>
+  
+  <mat-card *ngIf="state == '4' && getActivityDataKeys().length > 0">
+    <mat-card-header>
+      <mat-card-title>Traffic</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+        <ng-container *ngFor="let clientMac of getActivityDataKeys()">
+            <h3>{{ clientMac }}</h3>
+            <table>
+              <thead>
+                <tr>
+                  <th>Domain</th>
+                  <th>Requests</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let item of activityData[clientMac].traffic | keyvalue">
+                  <td>{{ item.key }}</td>
+                  <td>{{ item.value }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </ng-container>
+    </mat-card-content>
+  </mat-card>
