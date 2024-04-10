@@ -72,7 +72,14 @@ io.on('connection', (socket) => {
 	wifiClientsManager.init(io, data.ssid, data.mac, data.channel);
   });
   
+  socket.on('deauthConnectedClient', (data) => {
+	wifiClientsManager.deauth(io, data.ssid, data.mac, data.channel, data.target);
+  });
   
+  socket.on('startSniff', (data) => {
+	console.log(data);
+	wifiClientsManager.startSniff(io, data.password, data.ssid);
+  });
   
 });
 
