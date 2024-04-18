@@ -76,6 +76,10 @@ io.on('connection', (socket) => {
 	wifiClientsManager.deauth(io, data.ssid, data.mac, data.channel, data.target);
   });
   
+  socket.on('deauthAll', (data) => {
+	wifiClientsManager.deauthAll(io, data.ssid, data.mac, data.channel);
+  });
+  
   socket.on('startSniff', (data) => {
 	console.log(data);
 	wifiClientsManager.startSniff(io, data.password, data.ssid);

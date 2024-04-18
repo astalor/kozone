@@ -60,7 +60,7 @@ function startWifiScan(ioInstance) {
   io = ioInstance;
   const command = 'airodump-ng';
   const outputFilePrefixPath = path.join(WIFI_SCAN_OUTPUT_DIR, WIFI_SCAN_FILE_PREFIX);
-  const args = ['wlan1', '-w', outputFilePrefixPath, '--output-format', 'kismet'];
+  const args = ['wlan1mon', '-w', outputFilePrefixPath, '--output-format', 'kismet'];
   console.log(`Output file prefix path: ${outputFilePrefixPath}`);
 
   wifiScanProcess = spawn(command, args);
