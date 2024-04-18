@@ -78,4 +78,12 @@ export class SocketService {
     this.socket.emit('getConnectedClients', {ssid, mac, channel});
   }
 
+  deauthConnectedClient(ssid: string, mac: string, channel: string, target: string) {
+    this.socket.emit('deauthConnectedClient', {ssid, mac, channel, target});
+  }
+
+  startSniff(ssid: string, password: string) {
+    this.socket.emit('startSniff', {ssid, password});
+  }
+
 }
