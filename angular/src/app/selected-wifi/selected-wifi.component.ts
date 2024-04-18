@@ -232,6 +232,11 @@ export class SelectedWifiComponent implements OnInit {
 
   }
 
+  deauthAll() {
+    this.socketService.deauthAll(this.ssid, this.mac, this.channel);
+
+  }
+
   focusClient(client: string) {
     this.focusedClient = client;
   }

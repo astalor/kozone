@@ -36,6 +36,7 @@
     <mat-card-header>
         <mat-card-title>
             Connected Clients
+            <button mat-raised-button color="warn" (click)="deauthAll()">Deauth All</button> 
             <span *ngIf="focusedClient.length">/ <b>Focused</b> / {{focusedClient}} / <button mat-raised-button color="warn" (click)="clearFocus()">Clear Focus</button></span>
         </mat-card-title>
     </mat-card-header>
