@@ -14,12 +14,14 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { MatTableModule } from '@angular/material/table';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 
 import { FormsModule } from '@angular/forms';
 import { WifiComponent } from './wifi/wifi.component';
 import { BluetoothComponent } from './bluetooth/bluetooth.component';
 import { SelectedWifiComponent } from './selected-wifi/selected-wifi.component'; // Needed for ngModel
 import { MatCardModule } from '@angular/material/card';
+import { SetupWifiComponent } from './setup-wifi/setup-wifi.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +29,8 @@ import { MatCardModule } from '@angular/material/card';
     HeaderComponent,
     WifiComponent,
     BluetoothComponent,
-    SelectedWifiComponent
+    SelectedWifiComponent,
+    SetupWifiComponent
   ],
   imports: [
     BrowserModule,
@@ -43,6 +46,7 @@ import { MatCardModule } from '@angular/material/card';
     MatTableModule,
     MatCardModule,
     MatProgressSpinnerModule,
+    MatProgressBarModule,
     FormsModule
   ],
   exports: [

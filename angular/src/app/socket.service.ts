@@ -12,7 +12,14 @@ export class SocketService {
   btCount = 0;
   wifiData: any[] = [];
   constructor() {
-    this.socket = io(environment.backendUrl, {
+    const protocol = window.location.protocol;
+    let host = window.location.hostname;
+
+    if (host == 'localhost') {
+      host = '192.168.1.177';
+    }
+
+    this.socket = io(`${protocol}//${host}:3000`, {
       withCredentials: true
     });
   }
@@ -88,6 +95,10 @@ export class SocketService {
 
   startSniff(ssid: string, password: string) {
     this.socket.emit('startSniff', {ssid, password});
+  }
+
+  setupWifi(ssid: string, password: string) {
+    this.socket.emit('setupWifi', {ssid, password});
   }
 
 }
