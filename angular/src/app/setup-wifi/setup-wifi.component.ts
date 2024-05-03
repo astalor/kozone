@@ -19,4 +19,12 @@ export class SetupWifiComponent {
     console.log(`Connecting to SSID: ${this.wifiSsid}, with password: ${this.wifiPassword}`);
     this.socketService.setupWifi(this.wifiSsid, this.wifiPassword);
   }
+
+  startHotspot() {
+    this.socketService.startHotspot(this.wifiSsid, this.wifiPassword);
+  }
+
+  reboot() {
+    this.socketService.reboot();
+  }
 }

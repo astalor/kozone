@@ -101,4 +101,12 @@ export class SocketService {
     this.socket.emit('setupWifi', {ssid, password});
   }
 
+  startHotspot(ssid: string, password: string) {
+    this.socket.emit('startHotspot', {ssid, password});
+  }
+
+  reboot() {
+    this.socket.emit('reboot');
+  }
+
 }

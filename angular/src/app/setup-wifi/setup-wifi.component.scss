@@ -1,8 +1,9 @@
-.setup-wifi-container {
+  .setup-wifi-container {
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 20px;
+    flex-wrap: nowrap; /* Ensures no wrapping occurs */
+    gap: 20px; /* Spacing between cards */
+    justify-content: flex-start; /* Aligns items to the start of the flex container */
+    width: 100%; /* Sets the width of the flex container to full width */
   }
   
   input, button {
