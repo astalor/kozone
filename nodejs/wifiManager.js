@@ -13,6 +13,47 @@ function init() {
 	spawn('airmon-ng', ['start', 'wlan1']);
 }
 
+
+function startHotspot(io, pass, ssid) {
+    try {
+        // Safely format the parameters to avoid shell injection
+        const safePass = escapeShellArg(pass);
+        const safeSsid = escapeShellArg(ssid);
+
+        // Include the parameters in the command
+        execSync(`/var/www/kozone/bash/start_hotspot.sh ${safeSsid} ${safePass}`);
+    } catch (error) {
+        console.error("Failed to set up Hotspot:", error);
+    }
+}
+
+
+function reboot() {
+    try {
+        // Include the parameters in the command
+        exec(`reboot`);
+    } catch (error) {
+    }
+}
+
+function setupWifi(io, pass, ssid) {
+    try {
+        // Safely format the parameters to avoid shell injection
+	const safePass = escapeShellArg(pass); 
+	const safeSsid = escapeShellArg(ssid);
+
+        // Include the parameters in the command
+        execSync(`/var/www/kozone/bash/connect_wifi.sh ${safeSsid} ${safePass}`);
+    } catch (error) {
+        console.error("Failed to set up WiFi:", error);
+    }
+}
+
+function escapeShellArg(arg) {
+    // Escape potentially dangerous characters in arguments
+    return `'${arg.replace(/'/g, "'\\''")}'`;
+}
+
 function cleanup() {
 	try {
 		execSync("pkill -9 -f airodump-ng");
@@ -115,4 +156,7 @@ module.exports = {
   cleanup,
   startWifiScan,
   startSendingFileContentsEvery2Seconds,
+  setupWifi,
+  startHotspot,
+  reboot
 };

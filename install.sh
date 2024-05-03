@@ -9,7 +9,10 @@ sudo apt-get update
 
 # Install necessary packages
 echo "Installing necessary packages..."
-sudo apt-get install -y tshark apt-transport-https ca-certificates curl software-properties-common git aircrack-ng python3 python3-pip libxslt1.1
+sudo apt-get install -y tshark apt-transport-https ca-certificates curl software-properties-common git aircrack-ng python3 python3-pip libxslt1.1 hostapd dnsmasq nmap libimobiledevice-utils libssl-dev libssh2-1-dev
+sudo apt-get install build-essential libssl-dev libssh2-1-dev libpcap-dev libgtk-3-dev
+
+
 
 echo "Installing NodeJS..."
 curl -sL https://deb.nodesource.com/setup_21.x | sudo -E bash -
@@ -28,3 +31,22 @@ pip3 install pyshark
 git config --global user.email "me@kozone"
 git config --global user.name "kozone"
 
+sudo bash -c 'cat <<EOF > /etc/hostapd/hostapd.conf
+interface=wlan0
+driver=nl80211
+ssid=kozone
+hw_mode=g
+channel=7
+wmm_enabled=0
+macaddr_acl=0
+auth_algs=1
+ignore_broadcast_ssid=0
+wpa=2
+wpa_passphrase=111222333
+wpa_key_mgmt=WPA-PSK
+wpa_pairwise=TKIP
+rsn_pairwise=CCMP
+EOF'
+
+
+./var/www/kozone/bash/register_hotspot_service.sh

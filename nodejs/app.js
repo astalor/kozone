@@ -37,7 +37,9 @@ const io = new Server(server, {
 wifiPasswordManager.init(io);
 
 io.on('connection', (socket) => {
+console.log('connection');
   socket.on('startWifiScan', () => {
+console.log('startwifiscan');
     wifiManager.startWifiScan(io);
   });
 
@@ -83,6 +85,19 @@ io.on('connection', (socket) => {
   socket.on('startSniff', (data) => {
 	console.log(data);
 	wifiClientsManager.startSniff(io, data.password, data.ssid);
+  });
+  
+  socket.on('setupWifi', (data) => {
+	console.log('<<<', data);
+	wifiManager.setupWifi(io, data.password, data.ssid);
+  });
+
+  socket.on('startHotspot', (data) => {
+        wifiManager.startHotspot(io, data.password, data.ssid);
+  });
+
+  socket.on('reboot', (data) => {
+        wifiManager.reboot();
   });
   
 });
