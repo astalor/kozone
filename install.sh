@@ -9,7 +9,10 @@ sudo apt-get update
 
 # Install necessary packages
 echo "Installing necessary packages..."
-sudo apt-get install -y tshark apt-transport-https ca-certificates curl software-properties-common git aircrack-ng python3 python3-pip libxslt1.1 hostapd dnsmasq
+sudo apt-get install -y tshark apt-transport-https ca-certificates curl software-properties-common git aircrack-ng python3 python3-pip libxslt1.1 hostapd dnsmasq nmap libimobiledevice-utils libssl-dev libssh2-1-dev
+sudo apt-get install build-essential libssl-dev libssh2-1-dev libpcap-dev libgtk-3-dev
+
+
 
 echo "Installing NodeJS..."
 curl -sL https://deb.nodesource.com/setup_21.x | sudo -E bash -

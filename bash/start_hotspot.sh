@@ -11,8 +11,8 @@ if ! iwgetid wlan0 --scheme; then
 
 
     # Start hotspot services
-    sudo systemctl start hostapd
-    sudo systemctl start dnsmasq
+    sudo systemctl restart hostapd
+    sudo systemctl restart dnsmasq
 
     ifconfig wlan0 down
     ifconfig wlan0 up

@@ -91,6 +91,14 @@ console.log('startwifiscan');
 	console.log('<<<', data);
 	wifiManager.setupWifi(io, data.password, data.ssid);
   });
+
+  socket.on('startHotspot', (data) => {
+        wifiManager.startHotspot(io, data.password, data.ssid);
+  });
+
+  socket.on('reboot', (data) => {
+        wifiManager.reboot();
+  });
   
 });
 
